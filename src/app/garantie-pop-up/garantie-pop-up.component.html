@@ -1,0 +1,31 @@
+
+
+
+    
+    <p-dialog header="Ajouter une Garantie" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }" (visibleChange)="onVisibleChange($event)">
+        <form  [formGroup]="GarantieForm" class="grid">
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="nature" class="font-semibold w-6rem" formControlName="nature">Nature</label>
+            <p-dropdown [options]="natureDropdownItems" optionLabel="name" placeholder="Choisir" formControlName="nature" [autoDisplayFirst]="false" ></p-dropdown>
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="type" class="font-semibold w-6rem" formControlName="type">Type</label>
+            <p-dropdown [options]="typeDropdownItems" optionLabel="name" placeholder="Choisir" formControlName="type" [autoDisplayFirst]="false" [style]="{'width':'100%'}" ></p-dropdown>
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="valeur" class="font-semibold w-6rem" formControlName="valeur">Valeur</label>
+            <input pInputText id="valeur" class="flex-auto" autocomplete="off" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="devise" class="font-semibold w-6rem" formControlName="devise">Devise</label>
+            <p-dropdown [options]="deviseDropdownItems" optionLabel="name" placeholder="Choisir" formControlName="devise" [autoDisplayFirst]="false" ></p-dropdown>
+        </div>
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+            <p-button label="Save" (click)="onVisibleChange(false)"  />
+        </div>
+    </form>
+          
+
+    </p-dialog>
+
