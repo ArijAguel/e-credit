@@ -21,6 +21,9 @@ import { ToastModule } from 'primeng/toast';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GarantiePopUpComponent } from './garantie-pop-up/garantie-pop-up.component';
 import { DialogModule } from 'primeng/dialog';
+import { FileUploadModule } from 'primeng/fileupload';
+
+
 
 
 
@@ -54,7 +57,8 @@ import { DialogModule } from 'primeng/dialog';
     ToastModule,
     ReactiveFormsModule,
     FormsModule,
-    DialogModule
+    DialogModule,
+    FileUploadModule
 ,
   ],
   providers: [],

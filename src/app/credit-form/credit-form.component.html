@@ -1,4 +1,4 @@
-<form  [formGroup]="CredForm" class="grid">
+<form [formGroup]="CredForm" class="grid">
 	<h2>Demande de Crédit</h2>
 
 	<p-fieldset>
@@ -9,8 +9,8 @@
 			</div>
 		</ng-template>
 
-	<div class="col-12">
-		
+		<div class="col-12">
+
 			<div class="p-fluid p-formgrid grid">
 				<div class="field col-12 md:col-4">
 					<label htmlFor="CIN">CIN</label>
@@ -18,7 +18,7 @@
 				</div>
 				<div class="field col-12 md:col-4">
 					<label htmlFor="Nom">Nom</label>
-					<input pInputText id="Nom" type="text" formControlName="nom"/>
+					<input pInputText id="Nom" type="text" formControlName="nom" />
 				</div>
 				<div class="field col-12 md:col-4">
 					<label htmlFor="Prenom">Prénom</label>
@@ -26,11 +26,12 @@
 				</div>
 				<div class="field col-12 md:col-4">
 					<label htmlFor="NumCompte">Numero du Compte</label>
-					<p-dropdown [options]="NumeroDropdownItems" optionLabel="name" placeholder="Choisir" formControlName="numCompte" [autoDisplayFirst]="false" ></p-dropdown>
+					<p-dropdown [options]="NumeroDropdownItems" optionLabel="name" placeholder="Choisir"
+						formControlName="numCompte" [autoDisplayFirst]="false"></p-dropdown>
 				</div>
 				<div class="field col-12 md:col-3">
 					<label for="Devise">Devise</label>
-					<p-checkbox formControlName="devise" value="devise" inputId="ny"></p-checkbox>
+					<input pInputText id="devise" type="text" formControlName="devise" />
 				</div>
 				<div class="field col-12 md:col-5">
 					<label htmlFor="DateOuverture">Date d'Ouverture</label>
@@ -44,116 +45,122 @@
 					<label htmlFor="SituationFamiliale">Situation Familiale</label>
 					<input pInputText id="SituationFamiliale" type="text" formControlName="situationFamiliale" />
 				</div>
-			
-			</div>
-		
-	</div>
-</p-fieldset>
 
-<p-fieldset>
-	<ng-template pTemplate="header">
-		<div class="flex align-items-center text-primary">
-			<span class="font-bold text-lg">Dossier Crédit</span>
+			</div>
+
 		</div>
-	</ng-template>
+	</p-fieldset>
 
-<div class="col-12">
-	
-		<div class="p-fluid p-formgrid grid">
-			<div class="field col-12 md:col-6">
-				<label htmlFor="TypeCredit">Type Crédit</label>
-				<p-dropdown [options]="CreditDropdownItems" optionLabel="TypeCredit" placeholder="Choisir" formControlName="typeCredit" ></p-dropdown>
+	<p-fieldset>
+		<ng-template pTemplate="header">
+			<div class="flex align-items-center text-primary">
+				<span class="font-bold text-lg">Dossier Crédit</span>
 			</div>
-			<div class="field col-12 md:col-6">
-				<label htmlFor="Montant">Montant</label>
-				<input pInputText id="Montant" type="text" formControlName="montant"/>
+		</ng-template>
+
+		<div class="col-12">
+
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-6">
+					<label htmlFor="TypeCredit">Type Crédit</label>
+					<p-dropdown [options]="CreditDropdownItems" optionLabel="TypeCredit" placeholder="Choisir"
+						formControlName="typeCredit"></p-dropdown>
+				</div>
+				<div class="field col-12 md:col-6">
+					<label htmlFor="Montant">Montant</label>
+					<input pInputText id="Montant" type="text" formControlName="montant" />
+				</div>
+				<div class="field col-12 md:col-6">
+					<label htmlFor="Unite">Unité</label>
+					<p-dropdown [options]="UniteDropdownItems" optionLabel="Unite" placeholder="Choisir"
+						formControlName="unite"></p-dropdown>
+				</div>
+				<div class="field col-12 md:col-6">
+					<label htmlFor="NbrEcheance">Nombre Echéance</label>
+					<input pInputText id="NbrEcheance" type="text" formControlName="nbrEcheance" />
+				</div>
+
+
 			</div>
-			<div class="field col-12 md:col-6">
-				<label htmlFor="Unite">Unité</label>
-				<p-dropdown [options]="UniteDropdownItems" optionLabel="Unite" placeholder="Choisir" formControlName="unite" ></p-dropdown>
-			</div>
-			<div class="field col-12 md:col-6">
-				<label htmlFor="NbrEcheance">Nombre Echéance</label>
-				<input pInputText id="NbrEcheance" type="text" formControlName="nbrEcheance" />
-			</div>
-			
-		
+
 		</div>
-	
-</div>
-</p-fieldset>
+	</p-fieldset>
 
 
 
-<p-fieldset>
-	<ng-template pTemplate="header">
-		<div class="flex align-items-center text-primary">
-			<span class="font-bold text-lg">Garanties Proposées</span>
+	<p-fieldset>
+		<ng-template pTemplate="header">
+			<div class="flex align-items-center text-primary">
+				<span class="font-bold text-lg">Garanties Proposées</span>
+			</div>
+		</ng-template>
+
+		<div class="col-12">
+			<div class="field col-12 md:col-12">
+
+				<p-table [value]="listeGaranties" [rowHover]="true" styleClass="p-datatable-gridlines"
+					responsiveLayout="scroll">
+
+					<ng-template pTemplate="header">
+						<tr>
+							<th style="min-width: 3rem">
+								<div class="flex justify-content-between align-items-center">
+									Indice
+								</div>
+							</th>
+							<th style="min-width: 10rem">
+								<div class="flex justify-content-between align-items-center">
+									Nature
+								</div>
+							</th>
+							<th style="min-width: 10rem">
+								<div class="flex justify-content-between align-items-center">
+									Type
+								</div>
+							</th>
+							<th style="min-width: 10rem">
+								<div class="flex justify-content-between align-items-center">
+									Valeur
+
+								</div>
+							</th>
+							<th style="min-width: 10rem">
+								<div class="flex justify-content-between align-items-center">
+									Devise
+								</div>
+							</th>
+							<th style="min-width: 9rem">
+								<div class="flex justify-content-between align-items-center">
+									Action
+									<button pButton pRipple type="button" icon="pi pi-plus" (click)="showDialog()"
+										class="p-button-rounded p-button-success"></button>
+
+								</div>
+							</th>
+
+						</tr>
+
+					</ng-template>
+
+					<ng-template pTemplate="body" let-garantie let-index="rowIndex">
+						<tr>
+							<td>{{index+1}}</td>
+							<td>{{ garantie.nature }}</td>
+							<td>{{ garantie.type}}</td>
+							<td>{{ garantie.valeur }}</td>
+							<td>{{ garantie.devise }}</td>
+							<td><p-button icon="pi pi-pencil" [rounded]="true" severity="secondary"
+									(onClick)="modifierGarantie(index)" /> &nbsp;
+								<p-button icon="pi pi-trash" [rounded]="true" severity="danger"
+									(onClick)="supprimerGarantie(index)" />
+							</td>
+						</tr>
+					</ng-template>
+
+
+				</p-table>
+			</div>
 		</div>
-	</ng-template>
-
-	<div class="col-12">
-		<div class="field col-12 md:col-12">
-		
-			<p-table  [value]="listeGaranties"   [rowHover]="true" styleClass="p-datatable-gridlines"   responsiveLayout="scroll">
-				
-				<ng-template pTemplate="header">
-					<tr>
-						<th style="min-width: 3rem">
-							<div class="flex justify-content-between align-items-center">
-								Indice
-							</div>
-						</th>
-						<th style="min-width: 10rem">
-							<div class="flex justify-content-between align-items-center">
-								Nature
-							</div>
-						</th>
-						<th style="min-width: 10rem">
-							<div class="flex justify-content-between align-items-center">
-								Type
-							</div>
-						</th>
-						<th style="min-width: 10rem">
-							<div class="flex justify-content-between align-items-center">
-								Valeur
-								
-							</div>
-						</th>
-						<th style="min-width: 10rem">
-							<div class="flex justify-content-between align-items-center">
-								Devise
-							</div>
-						</th>
-						<th style="min-width: 9rem">
-							<div class="flex justify-content-between align-items-center">
-								Action
-								<button pButton pRipple type="button" icon="pi pi-plus" (click)="showDialog()" class="p-button-rounded p-button-success"></button>
-
-							</div>
-						</th>
-						
-					</tr>
-					
-				</ng-template>
-				
-				<ng-template pTemplate="body" let-garantie let-index="rowIndex">
-					<tr>
-						<td>{{index+1}}</td>
-						<td>{{ garantie.nature }}</td>
-						<td>{{ garantie.type}}</td>
-						<td>{{ garantie.valeur }}</td>
-						<td>{{ garantie.devise }}</td>
-						 <td><p-button icon="pi pi-pencil" [rounded]="true" severity="secondary" (onClick)="modifierGarantie(index)" /> &nbsp;
-							<p-button icon="pi pi-trash" [rounded]="true" severity="danger" (onClick)="supprimerGarantie(index)" />
-						</td>
-					</tr>
-				</ng-template>
-				
-				
-    		</p-table>
-		</div> 
-	</div>
 	</p-fieldset>
 
 	<p-fieldset>
@@ -162,13 +169,14 @@
 				<span class="font-bold text-lg">Pièces Jointes</span>
 			</div>
 		</ng-template>
-	
+
 		<div class="col-12">
 			<div class="field col-12 md:col-12">
-			
-				<p-table  [value]="PiecesJointes" dataKey="id"  [rowHover]="true" styleClass="p-datatable-gridlines"   responsiveLayout="scroll">
-					
-					<ng-template pTemplate="header">
+
+				<p-table [value]="statutPieces" dataKey="id" [rowHover]="true" styleClass="p-datatable-gridlines"
+					responsiveLayout="scroll">
+
+					<ng-template pTemplate="header" let-statut>
 						<tr>
 							<th style="min-width: 18rem">
 								<div class="flex justify-content-between align-items-center">
@@ -183,96 +191,138 @@
 							<th style="min-width: 18rem">
 								<div class="flex justify-content-between align-items-center">
 									Statut
-									
+
 								</div>
 							</th>
-							
-							
+
+
 						</tr>
 						<tr>
 							<th>Bulletin de paie</th>
 							<th>Oui</th>
-							<th></th>
-							
+							<th>{{ statutPieces[0] }}</th>
+
 						</tr>
 						<tr>
 							<th>CIN</th>
 							<th>Oui</th>
-							<th></th>
-							
+							<th>{{ statutPieces[1] }}</th>
+
 						</tr>
-						
+
 					</ng-template>
-					
-					
-					
-					
+
+
+
+
 				</p-table>
-			</div> 
+				<div class="col-12">
+					<div class="flex flex-wrap gap-2">
+						<div class="field col-12 md:col-4 "></div>
+						<div class="field col-12 md:col-4 ">
+							<button pButton pRipple type="button" label="ajouter une pièce" (click)="showDialog2()"
+								class="p-button-rounded p-button-success"></button>
+						</div>
+
+					</div>
+				</div>
+
+
+
+			</div>
 		</div>
 	</p-fieldset>
 
-<p-fieldset>
+	<p-fieldset>
 
-	<ng-template pTemplate="header">
-		<div class="flex align-items-center text-primary ">
-			<span class="font-bold text-lg">Observations</span>
+		<ng-template pTemplate="header">
+			<div class="flex align-items-center text-primary ">
+				<span class="font-bold text-lg">Observations</span>
+			</div>
+		</ng-template>
+
+		<div class="col-12">
+			<div class="field col-12 md:col-12 ">
+
+				<textarea rows="5" cols="100" pInputTextarea formControlName="observations"></textarea>
+
+			</div>
 		</div>
-	</ng-template>
+	</p-fieldset>
 
 	<div class="col-12">
-		<div class="field col-12 md:col-12 ">
-			<div class="card p-fluid">
-				Content
+		<div class="flex flex-wrap gap-2">
+			<div class="field col-12 md:col-4 "></div>
+			<div class="field col-12 md:col-2 ">
+				<button pButton pRipple type="button" label="initialiser" class="p-button-raised"></button>
 			</div>
-		</div> 
-	</div>
-</p-fieldset>
-				
-<div class="col-12">
-	<div class="flex flex-wrap gap-2">
-		<div class="field col-12 md:col-4 "></div> 
-		<div class="field col-12 md:col-2 ">
-		<button pButton pRipple type="button" label="initialiser" class="p-button-raised" ></button>
-	</div>
-	<div class="field col-12 md:col-2 ">
+			<div class="field col-12 md:col-2 ">
 
-		<button pButton pRipple type="button" label="enregistrer" class="p-button-raised p-button-success" ></button>
-	</div>
-		<div class="field col-12 md:col-4 "></div> 
+				<button pButton pRipple type="button" label="enregistrer"
+					class="p-button-raised p-button-success"></button>
+			</div>
+			<div class="field col-12 md:col-4 "></div>
 
+		</div>
 	</div>
-</div>
-			
 
-	
+
+
 </form>
 
 <!-- <app-garantie-pop-up [visible]="visible"></app-garantie-pop-up> -->
 
 <p-dialog header="Ajouter une Garantie" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-	<form  [formGroup]="GarantieForm" class="grid">
-	<div class="flex align-items-center gap-3 mb-3">
-		<label for="nature" class="font-semibold w-6rem" >Nature</label>
-		<p-dropdown [options]="natureDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir" formControlName="nature" [autoDisplayFirst]="false" ></p-dropdown>
-	</div>
-	<div class="flex align-items-center gap-3 mb-5">
-		<label for="type" class="font-semibold w-6rem">Type</label>
-		<p-dropdown [options]="typeDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir" formControlName="type" [autoDisplayFirst]="false" [style]="{'width':'100%'}" ></p-dropdown>
-	</div>
-	<div class="flex align-items-center gap-3 mb-5">
-		<label for="valeur" class="font-semibold w-6rem" >Valeur</label>
-		<input pInputText id="valeur" class="flex-auto" formControlName="valeur" autocomplete="off" />
-	</div>
-	<div class="flex align-items-center gap-3 mb-5">
-		<label for="devise" class="font-semibold w-6rem">Devise</label>
-		<p-dropdown [options]="deviseDropdownItems" optionLabel="name" placeholder="Choisir"optionValue="value" formControlName="devise" [autoDisplayFirst]="false" ></p-dropdown>
-	</div>
-	<div class="flex justify-content-end gap-2">
-		<p-button label="Cancel" severity="secondary" (click)="visible = false" />
-		<!-- <p-button label="Save" (click)="close()"  /> -->
-		<p-button label="Save" (click)="enregistrerGarantie() "  />
-	</div>
-</form>
+	<form [formGroup]="GarantieForm" class="grid">
+		<div class="flex align-items-center gap-3 mb-3">
+			<label for="nature" class="font-semibold w-6rem">Nature</label>
+			<p-dropdown [options]="natureDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
+				formControlName="nature" [autoDisplayFirst]="false"></p-dropdown>
+		</div>
+		<div class="flex align-items-center gap-3 mb-5">
+			<label for="type" class="font-semibold w-6rem">Type</label>
+			<p-dropdown [options]="typeDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
+				formControlName="type" [autoDisplayFirst]="false" [style]="{'width':'100%'}"></p-dropdown>
+		</div>
+		<div class="flex align-items-center gap-3 mb-5">
+			<label for="valeur" class="font-semibold w-6rem">Valeur</label>
+			<input pInputText id="valeur" class="flex-auto" formControlName="valeur" autocomplete="off" />
+		</div>
+		<div class="flex align-items-center gap-3 mb-5">
+			<label for="devise" class="font-semibold w-6rem">Devise</label>
+			<p-dropdown [options]="deviseDropdownItems" optionLabel="name" placeholder="Choisir" optionValue="value"
+				formControlName="devise" [autoDisplayFirst]="false"></p-dropdown>
+		</div>
+		<div class="flex justify-content-end gap-2">
+			<p-button label="Cancel" severity="secondary" (click)="visible = false" />
+			<!-- <p-button label="Save" (click)="close()"  /> -->
+			<p-button label="Save" (click)="enregistrerGarantie() " />
+		</div>
+	</form>
 
-</p-dialog> 
+</p-dialog>
+
+<p-dialog header="Ajouter une piece jointe" [modal]="true" [(visible)]="visible2" [style]="{ width: '25rem' }">
+	<form [formGroup]="PieceJointeForm" class="grid">
+		<div class="flex align-items-center gap-3 col-12">
+			<label for="document" class="font-semibold w-6rem field col-12 md:col-6">Document</label>
+			<p-dropdown [options]="documentDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
+				formControlName="document" [autoDisplayFirst]="false" class="col-12 md:col-6"></p-dropdown>
+		</div>
+		<div class="flex align-items-center gap-3 mb-10 col-12">
+			<div class="field col-12 md:col-3 "></div>
+			<p-fileUpload class=" mb-10 col-12 md:col-4" mode="basic" accept="image/*" [maxFileSize]="99999999"
+				label="importer" chooseLabel="importer" class="mr-2 inline-block" formControlName="photo"
+				(onSelect)="onFileSelected($event)"></p-fileUpload>
+			<div class="field col-12 md:col-2 "></div>
+		</div>
+		<div class="flex justify-content-end gap-2 col-12">
+			<div class="field col-12 md:col-2 "></div>
+			<p-button label="Cancel" severity="secondary" (click)="close()" class="col-12 md:col-4" />
+			<!-- <p-button label="Save" (click)="close()"  /> -->
+			<p-button label="Save" (click)="enregistrerPiece() " class="col-12 md:col-4" />
+			<div class="field col-12 md:col-2 "></div>
+		</div>
+	</form>
+
+</p-dialog>
