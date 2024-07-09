@@ -1,5 +1,9 @@
+import { Demande } from "./Demande";
+
 export interface Garantie {
-    nature:string,
+      idGarantie:Number,
+      demande: Demande,
+      nature:string,
       type:string,
       valeur:string,
       devise:string,

@@ -14,7 +14,13 @@
 			<div class="p-fluid p-formgrid grid">
 				<div class="field col-12 md:col-4">
 					<label htmlFor="CIN">CIN</label>
-					<input pInputText id="CIN" type="text" formControlName="cin" />
+					<input pInputText id="CIN" type="number" formControlName="cin" required />
+					<div *ngIf="CredForm.get('cin')?.hasError('required')" class="text-danger">
+						Le champ CIN est obligatoire.
+					  </div>
+					  <div *ngIf="CredForm.get('cin')?.hasError('pattern')" class="text-danger">
+						Le champ CIN doit être composé de 8 chiffres.
+					  </div>
 				</div>
 				<div class="field col-12 md:col-4">
 					<label htmlFor="Nom">Nom</label>
@@ -26,24 +32,29 @@
 				</div>
 				<div class="field col-12 md:col-4">
 					<label htmlFor="NumCompte">Numero du Compte</label>
-					<p-dropdown [options]="NumeroDropdownItems" optionLabel="name" placeholder="Choisir"
-						formControlName="numCompte" [autoDisplayFirst]="false"></p-dropdown>
+					<p-dropdown [options]="NumeroDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir" 
+                         formControlName="numCompte" [autoDisplayFirst]="false"></p-dropdown>
+                   <div *ngIf="CredForm.get('numCompte')?.invalid && CredForm.get('numCompte')?.touched" class="error-message">
+                        Champ numCompte. Veuillez choisir une option.
+                    </div>
 				</div>
 				<div class="field col-12 md:col-3">
 					<label for="Devise">Devise</label>
-					<input pInputText id="devise" type="text" formControlName="devise" />
+					<p-dropdown [options]="deviseDropdownItems" optionLabel="name" placeholder="Choisir" optionValue="value"
+				formControlName="devise" [autoDisplayFirst]="false"></p-dropdown>
 				</div>
 				<div class="field col-12 md:col-5">
 					<label htmlFor="DateOuverture">Date d'Ouverture</label>
-					<p-calendar formControlName="dateOuverture"></p-calendar>
+					<p-calendar formControlName="dateOuverture" dateFormat="d/m/y"></p-calendar>
 				</div>
 				<div class="field col-12 md:col-6">
 					<label htmlFor="DateNaissance">Date de Naissance</label>
-					<p-calendar formControlName="dateNaissance"></p-calendar>
+					<p-calendar formControlName="dateNaissance" dateFormat="d/m/y"></p-calendar>
 				</div>
 				<div class="field col-12 md:col-6">
 					<label htmlFor="SituationFamiliale">Situation Familiale</label>
-					<input pInputText id="SituationFamiliale" type="text" formControlName="situationFamiliale" />
+					<p-dropdown [options]="situationFamilialeDropdownItems" optionLabel="name" placeholder="Choisir" optionValue="value"
+				formControlName="situationFamiliale" [autoDisplayFirst]="false"></p-dropdown>
 				</div>
 
 			</div>
@@ -63,21 +74,30 @@
 			<div class="p-fluid p-formgrid grid">
 				<div class="field col-12 md:col-6">
 					<label htmlFor="TypeCredit">Type Crédit</label>
-					<p-dropdown [options]="CreditDropdownItems" optionLabel="TypeCredit" placeholder="Choisir"
-						formControlName="typeCredit"></p-dropdown>
+					<p-dropdown [options]="typeCreditDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
+						formControlName="type"></p-dropdown>
+						<div *ngIf="CredForm.get('type')?.invalid && CredForm.get('type')?.touched" class="error-message">
+							Champ numCompte. Veuillez choisir une option.
+						</div>
 				</div>
 				<div class="field col-12 md:col-6">
 					<label htmlFor="Montant">Montant</label>
-					<input pInputText id="Montant" type="text" formControlName="montant" />
+					<input pInputText id="Montant" type="number" formControlName="montant" required />
+					<div *ngIf="CredForm.get('montant')?.invalid && CredForm.get('montant')?.touched" class="text-danger">
+						Le montant doit être positif.
+					  </div>
 				</div>
 				<div class="field col-12 md:col-6">
 					<label htmlFor="Unite">Unité</label>
-					<p-dropdown [options]="UniteDropdownItems" optionLabel="Unite" placeholder="Choisir"
+					<p-dropdown [options]="uniteDropdownItems"  optionLabel="name" optionValue="value"  placeholder="Choisir"
 						formControlName="unite"></p-dropdown>
+						<div *ngIf="CredForm.get('unite')?.invalid && CredForm.get('unite')?.touched" class="error-message">
+							Champ unite. Veuillez choisir une option.
+						</div>
 				</div>
 				<div class="field col-12 md:col-6">
 					<label htmlFor="NbrEcheance">Nombre Echéance</label>
-					<input pInputText id="NbrEcheance" type="text" formControlName="nbrEcheance" />
+					<input pInputText id="NbrEcheance" type="number" formControlName="nbrEcheance" />
 				</div>
 
 
@@ -254,12 +274,14 @@
 		<div class="flex flex-wrap gap-2">
 			<div class="field col-12 md:col-4 "></div>
 			<div class="field col-12 md:col-2 ">
-				<button pButton pRipple type="button" label="initialiser" class="p-button-raised"></button>
+				<button pButton pRipple type="button" (click)="initialiser()" label="initialiser" class="p-button-raised"></button>
 			</div>
 			<div class="field col-12 md:col-2 ">
 
-				<button pButton pRipple type="button" label="enregistrer"
-					class="p-button-raised p-button-success"></button>
+				<p-toast />
+				<button pButton pRipple type="button" (click)="enregistrerDemande()" label="enregistrer"
+					class="p-button-raised p-button-success">
+				</button>
 			</div>
 			<div class="field col-12 md:col-4 "></div>
 
@@ -272,26 +294,38 @@
 
 <!-- <app-garantie-pop-up [visible]="visible"></app-garantie-pop-up> -->
 
-<p-dialog header="Ajouter une Garantie" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+<p-dialog header="Ajouter une Garantie" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem'}">
 	<form [formGroup]="GarantieForm" class="grid">
 		<div class="flex align-items-center gap-3 mb-3">
 			<label for="nature" class="font-semibold w-6rem">Nature</label>
-			<p-dropdown [options]="natureDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
+			<p-dropdown [options]="natureGarantieDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
 				formControlName="nature" [autoDisplayFirst]="false"></p-dropdown>
+				<div *ngIf="GarantieForm.get('nature')?.invalid && GarantieForm.get('nature')?.touched" class="error-message">
+					Champ numCompte. Veuillez choisir une option.
+				</div>
 		</div>
 		<div class="flex align-items-center gap-3 mb-5">
 			<label for="type" class="font-semibold w-6rem">Type</label>
-			<p-dropdown [options]="typeDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
+			<p-dropdown [options]="typeGarantieDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
 				formControlName="type" [autoDisplayFirst]="false" [style]="{'width':'100%'}"></p-dropdown>
+				<div *ngIf="GarantieForm.get('type')?.invalid && GarantieForm.get('type')?.touched" class="error-message">
+					Champ numCompte. Veuillez choisir une option.
+				</div>
 		</div>
 		<div class="flex align-items-center gap-3 mb-5">
 			<label for="valeur" class="font-semibold w-6rem">Valeur</label>
-			<input pInputText id="valeur" class="flex-auto" formControlName="valeur" autocomplete="off" />
+			<input pInputText id="valeur" class="flex-auto" formControlName="valeur" autocomplete="off" required />
+			<div *ngIf="GarantieForm.get('valeur')?.invalid && GarantieForm.get('valeur')?.touched" class="error-message">
+				Champ numCompte. Veuillez choisir une option.
+			</div>
 		</div>
 		<div class="flex align-items-center gap-3 mb-5">
 			<label for="devise" class="font-semibold w-6rem">Devise</label>
 			<p-dropdown [options]="deviseDropdownItems" optionLabel="name" placeholder="Choisir" optionValue="value"
 				formControlName="devise" [autoDisplayFirst]="false"></p-dropdown>
+				<div *ngIf="GarantieForm.get('devise')?.invalid && GarantieForm.get('devise')?.touched" class="error-message">
+					Champ numCompte. Veuillez choisir une option.
+				</div>
 		</div>
 		<div class="flex justify-content-end gap-2">
 			<p-button label="Cancel" severity="secondary" (click)="visible = false" />
@@ -311,8 +345,8 @@
 		</div>
 		<div class="flex align-items-center gap-3 mb-10 col-12">
 			<div class="field col-12 md:col-3 "></div>
-			<p-fileUpload class=" mb-10 col-12 md:col-4" mode="basic" accept="image/*" [maxFileSize]="99999999"
-				label="importer" chooseLabel="importer" class="mr-2 inline-block" formControlName="photo"
+			<p-fileUpload class=" mb-10 col-12 md:col-4" mode="basic" accept="image/*" [maxFileSize]="9999999"
+				label="importer" chooseLabel="importer" class="mr-2 inline-block" 
 				(onSelect)="onFileSelected($event)"></p-fileUpload>
 			<div class="field col-12 md:col-2 "></div>
 		</div>

@@ -17,11 +17,21 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SliderModule } from 'primeng/slider';
 import { ProgressBarModule } from 'primeng/progressbar';
 // For dynamic progressbar demo
-import { ToastModule } from 'primeng/toast';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GarantiePopUpComponent } from './garantie-pop-up/garantie-pop-up.component';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { ConsultationComponent } from './consultation/consultation.component';
+import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
+
+
+
+
 
 
 
@@ -38,6 +48,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     AppComponent,
     CreditFormComponent,
     GarantiePopUpComponent,
+    ConsultationComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,14 +65,16 @@ import { FileUploadModule } from 'primeng/fileupload';
     MultiSelectModule,
     SliderModule ,
     ProgressBarModule, 
-    ToastModule,
     ReactiveFormsModule,
     FormsModule,
     DialogModule,
-    FileUploadModule
+    FileUploadModule,
+    HttpClientModule,
+    ToastModule
+    
 ,
   ],
-  providers: [],
+  providers: [DatePipe, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
