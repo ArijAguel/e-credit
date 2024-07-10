@@ -9,5 +9,7 @@ export interface Demande {
     montant: Number,
     nbrEcheance: Number,
     observations: String,
+    etatDemande:String;
+    dateCre:Date;
 
 }

@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "demande")
@@ -16,8 +19,6 @@ public class Demande {
     @Column(name = "id_demande")
 
     private Integer idDemande;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Client client;
 
     private String type;
     private String unite;
@@ -26,6 +27,11 @@ public class Demande {
 
     private BigDecimal nbrEcheance;
     private String observations;
-
+    private String etatDemande ;
+    private Date dateCre=new Date();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "demande")
+    private List<Garantie> garanties;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Client client;
 
 }

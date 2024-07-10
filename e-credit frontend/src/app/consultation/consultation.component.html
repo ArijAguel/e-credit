@@ -1,15 +1,17 @@
-<h2>Demande de Crédit</h2>
+<h2>Gestion des Crédits</h2>
 <p-fieldset>
     <ng-template pTemplate="header">
         <div class="flex align-items-center text-primary">
-            <span class="font-bold text-lg">Garanties Proposées</span>
+            <span class="font-bold text-lg">Liste des demandes</span>
         </div>
     </ng-template>
 
     <div class="col-12">
-        <div class="field col-12 md:col-12">
+        <div class="field col-12 md:col-12" *ngIf="listeDemandes.length > 0; else noDemandes">
+            <button pButton pRipple type="button" icon="pi pi-plus" (click)="navigateToComponent('create',1)"
+										class="p-button-rounded p-button-success"></button>
 
-            <p-table [value]="listeDemandes" [rowHover]="true" styleClass="p-datatable-gridlines"
+            <p-table  [value]="listeDemandes" [rowHover]="true" styleClass="p-datatable-gridlines"
                 responsiveLayout="scroll">
 
                 <ng-template pTemplate="header">
@@ -58,16 +60,21 @@
                 <ng-template pTemplate="body" let-demande let-index="rowIndex">
                     <tr>
                         <td>{{index+1}}</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
+                        <td>{{ demande.idDemande }}</td>
+                        <td>{{ demande.nom }}</td>
+                        <td>{{ demande.type}}</td>
+                        <td>{{demande.etatDemande}}</td>
+                        <td>{{demande.dateCre}}</td>
                         <td>
-                         <!-- <p-button icon=" pi pi-check" [rounded]="true" severity="success"
-                                (onClick)="valider()" /> &nbsp;
+                            <p-button icon="pi pi-search" [rounded]="true" severity="info"
+                            (onClick)="navigateToComponent('consult',demande.idDemande)" /> &nbsp;
+                            <p-button icon="pi pi-pencil" [rounded]="true" severity="secondary"
+									(onClick)="navigateToComponent('edit',demande.idDemande)" />
+                         <p-button icon=" pi pi-check" [rounded]="true" severity="success"
+                                (onClick)="valider(demande.idDemande)" /> &nbsp;
                             <p-button icon="pi pi-times" [rounded]="true" severity="danger"
-                                (onClick)="rejeter()" />  -->
+                                (onClick)="rejeter(demande.idDemande)" /> 
+                                
                         </td>
                     </tr>
                 </ng-template>
@@ -75,5 +82,15 @@
 
             </p-table>
         </div>
+        <ng-template #noDemandes>
+            <p>Aucune demande trouvée.</p>
+          </ng-template>
     </div>
 </p-fieldset>
+
+<p-dialog header="details demande" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+	        <p>aaaaaaaaa</p>
+			<p-button label="Cancel" severity="secondary" (click)="visible=false" class="col-12 md:col-4" />
+	
+
+</p-dialog>

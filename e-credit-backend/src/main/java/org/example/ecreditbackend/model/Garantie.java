@@ -14,11 +14,9 @@ import java.math.BigDecimal;
 public class Garantie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_garantie")
 
     private Integer idGarantie;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="id_demande",referencedColumnName = "id_demande")
+    @ManyToOne
     private Demande demande;
     private String nature;
     private String type;

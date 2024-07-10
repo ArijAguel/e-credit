@@ -1,6 +1,7 @@
 package org.example.ecreditbackend.controller;
 
 import lombok.AllArgsConstructor;
+import org.example.ecreditbackend.dto.DemandeDTO;
 import org.example.ecreditbackend.model.Demande;
 import org.example.ecreditbackend.service.DemandeService;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class DemandeController {
     }
 
     @GetMapping("/get/demandes")
-    public List<Demande> getDemandes() {
+    public List<DemandeDTO> getDemandes() {
         return demandeService.getDemandes();
     }
 

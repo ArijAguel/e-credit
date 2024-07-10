@@ -1,11 +1,13 @@
 package org.example.ecreditbackend.service;
 
 import lombok.AllArgsConstructor;
+import org.example.ecreditbackend.dto.DemandeDTO;
+import org.example.ecreditbackend.model.Client;
 import org.example.ecreditbackend.model.Demande;
 import org.example.ecreditbackend.repository.DemandeRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,6 +18,8 @@ public class DemandeServiceImpl implements DemandeService {
     //@Autowired
     private final DemandeRepository demandeRepository;
 
+    private final ModelMapper modelMapper;
+
 
     @Override
     public Demande saveDemande(Demande demande) {
@@ -24,11 +28,23 @@ public class DemandeServiceImpl implements DemandeService {
     }
 
     @Override
-    public List<Demande> getDemandes() {
-        List<Demande> listeDemandes = new ArrayList<>();
-        demandeRepository.findAll().forEach(listeDemandes::add);
-        return listeDemandes;
+    public List<DemandeDTO> getDemandes() {
+
+        List<Demande> demandes = demandeRepository.findAll();
+        return demandes.stream()
+                .map(this::convertToDemandeDTO)
+                .toList();
+
     }
+        private DemandeDTO convertToDemandeDTO(Demande demande) {
+            DemandeDTO demandeDTO = modelMapper.map(demande, DemandeDTO.class);
+            Client client = demande.getClient();
+            demandeDTO.setNom(client.getNom()); // Assuming 'nom' is the attribute for the client's name in DemandeDTO
+            return demandeDTO;
+        }
+
+
+
 
     @Override
     public Demande getDemandeById(Integer idDemande) {

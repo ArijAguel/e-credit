@@ -1,6 +1,21 @@
 <form [formGroup]="CredForm" class="grid">
 	<h2>Demande de Crédit</h2>
 
+	<div *ngIf="flag === 'create'">
+		<p>creation de Credit </p>
+	</div>
+	<div *ngIf="flag === 'consult'">
+		<p>consultation de Credit </p>
+	</div>
+	<div *ngIf="flag === 'consult'">
+		<p>modification de Credit </p>
+	</div>
+	
+	<!-- <div *ngIf="!flag">
+		<p>no flag</p>
+	</div> -->
+
+
 	<p-fieldset>
 		<ng-template pTemplate="header">
 			<div class="flex align-items-center text-primary">
@@ -14,8 +29,8 @@
 			<div class="p-fluid p-formgrid grid">
 				<div class="field col-12 md:col-4">
 					<label htmlFor="CIN">CIN</label>
-					<input pInputText id="CIN" type="number" formControlName="cin" required />
-					<div *ngIf="CredForm.get('cin')?.hasError('required')" class="text-danger">
+					<input (input)="onCinChange()" pInputText id="CIN" type="number" formControlName="cin" required />
+					<div *ngIf="CredForm.get('cin')?.touched" class="text-danger">
 						Le champ CIN est obligatoire.
 					  </div>
 					  <div *ngIf="CredForm.get('cin')?.hasError('pattern')" class="text-danger">
@@ -75,7 +90,7 @@
 				<div class="field col-12 md:col-6">
 					<label htmlFor="TypeCredit">Type Crédit</label>
 					<p-dropdown [options]="typeCreditDropdownItems" optionLabel="name" optionValue="value" placeholder="Choisir"
-						formControlName="type"></p-dropdown>
+						formControlName="type" (onBlur)="updateDocumentDropDownItems()"></p-dropdown>
 						<div *ngIf="CredForm.get('type')?.invalid && CredForm.get('type')?.touched" class="error-message">
 							Champ numCompte. Veuillez choisir une option.
 						</div>
@@ -90,7 +105,7 @@
 				<div class="field col-12 md:col-6">
 					<label htmlFor="Unite">Unité</label>
 					<p-dropdown [options]="uniteDropdownItems"  optionLabel="name" optionValue="value"  placeholder="Choisir"
-						formControlName="unite"></p-dropdown>
+						formControlName="unite" [showClear]="true"></p-dropdown>
 						<div *ngIf="CredForm.get('unite')?.invalid && CredForm.get('unite')?.touched" class="error-message">
 							Champ unite. Veuillez choisir une option.
 						</div>
@@ -214,6 +229,12 @@
 
 								</div>
 							</th>
+							<th style="min-width: 18rem">
+								<div class="flex justify-content-between align-items-center">
+									Importer
+
+								</div>
+							</th>
 
 
 						</tr>
@@ -221,12 +242,18 @@
 							<th>Bulletin de paie</th>
 							<th>Oui</th>
 							<th>{{ statutPieces[0] }}</th>
+							<th><p-fileUpload class=" mb-10 col-12 md:col-4" mode="basic" accept="image/*" [maxFileSize]="9999999"
+								label="importer" chooseLabel="importer" class="mr-2 inline-block" 
+								(onSelect)="onFileSelected($event)"></p-fileUpload></th>
 
 						</tr>
 						<tr>
 							<th>CIN</th>
 							<th>Oui</th>
 							<th>{{ statutPieces[1] }}</th>
+							<th><p-fileUpload class=" mb-10 col-12 md:col-4" mode="basic" accept="image/*" [maxFileSize]="9999999"
+								label="importer" chooseLabel="importer" class="mr-2 inline-block" 
+								(onSelect)="onFileSelected($event)"></p-fileUpload></th>
 
 						</tr>
 
@@ -239,10 +266,10 @@
 				<div class="col-12">
 					<div class="flex flex-wrap gap-2">
 						<div class="field col-12 md:col-4 "></div>
-						<div class="field col-12 md:col-4 ">
+						<!-- <div class="field col-12 md:col-4 ">
 							<button pButton pRipple type="button" label="ajouter une pièce" (click)="showDialog2()"
 								class="p-button-rounded p-button-success"></button>
-						</div>
+						</div> -->
 
 					</div>
 				</div>
