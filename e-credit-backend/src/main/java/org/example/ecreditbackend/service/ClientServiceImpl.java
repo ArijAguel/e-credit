@@ -1,4 +1,4 @@
-package org.example.ecreditbackend.service.impl;
+package org.example.ecreditbackend.service;
 
 import org.example.ecreditbackend.model.Client;
 import org.example.ecreditbackend.repository.ClientRepository;

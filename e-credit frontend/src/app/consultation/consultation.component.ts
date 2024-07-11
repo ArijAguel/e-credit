@@ -110,22 +110,7 @@ valider(idDemande:number){
 
 }
 
-consulter(){
-  this.demandeService.getDemandeById(1).subscribe(
-    (demande : Demande) => {
-      console.log(demande);
-            //  affichiha fl pop up
-    },
-    error => {
-      console.error('Erreur lors de la récupération de la demande', error);
-    }
-    
-  );
 
-
-this.visible=true;
-
-}
 
 }
 

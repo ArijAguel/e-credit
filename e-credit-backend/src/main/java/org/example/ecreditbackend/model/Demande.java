@@ -23,15 +23,17 @@ public class Demande {
     private String type;
     private String unite;
     private BigDecimal montant;
-    @Column(name = "nbr_echeance")
 
     private BigDecimal nbrEcheance;
     private String observations;
     private String etatDemande ;
     private Date dateCre=new Date();
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "demande")
-    private List<Garantie> garanties;
+    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "demande")
+
+    private List<Garantie> listeGaranties;
     @OneToOne(cascade = CascadeType.ALL)
     private Client client;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Piece pieceJointe;
 
 }

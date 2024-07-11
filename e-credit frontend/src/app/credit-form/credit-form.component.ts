@@ -33,16 +33,19 @@ export class CreditFormComponent implements OnInit {
 
   visible!: boolean;
   visible2: boolean = false;
-  piece: Piece = new Piece();DemandeService: any;
-;
+  DemandeService: any;
+
+  piece = new Piece();
+
+  
+  
+   
 
 
 
   submitted: boolean = false;
   colonnesGarantie: any[] = [];
   listeGaranties: Garantie[] = [];
-  statutPieces: String[] = ["non","non"];
-  // garantie: Garantie = {};
   isEditMode: boolean = false;
   editIndex: number = -1;
   demande: Demande ={} as Demande;
@@ -84,7 +87,10 @@ export class CreditFormComponent implements OnInit {
     }
    
 
-    }
+    console.log("Form based on this flag:",this.flag);
+     this.FormDisplayBasedOnFlag(this.flag,this.idDemande);
+
+    } // constructor
 
   ngOnInit(): void {
 
@@ -107,20 +113,6 @@ export class CreditFormComponent implements OnInit {
       situationFamiliale: [],
     });
  
-    // this.onCinChange();
-    this.CredForm.get('unite')?.valueChanges.subscribe(() => this.calculateNbrEcheance());
-
-
-  
-
-  
-    
-    console.log("Form based on this flag:",this.flag);
-     this.FormDisplayBasedOnFlag(this.flag,this.idDemande);
-    // this.FormDisplayBasedOnFlag("consult",this.idDemande);
-
-
-    
 
     this.GarantieForm = this.formBuilder.group({
       nature: ['', Validators.required], 
@@ -168,44 +160,51 @@ export class CreditFormComponent implements OnInit {
   ];
   
  
- updateDocumentDropDownItems(){
+ updatePieceJointe(){
+  console.log(this.CredForm.get('type')?.value);
   
     switch (this.CredForm.get('type')?.value) {
       case 'crédit à la consommation':
-        this.documentDropdownItems  = [
-          { name: '111', value: 'cin' },
-          { name: 'bulletin de paie', value: 'bulletin de paie' }
-        ];
+        this.piece.doc1="aaa";
+        this.piece.statut1=false;
+        this.piece.obligatoire1=true;
+
+        this.piece.doc2="bbb";
+        this.piece.statut2=false;
+        this.piece.obligatoire2=true;
         break;
       case 'pret immobilier':
-        this.documentDropdownItems  = [
-          { name: '222', value: 'cin' },
-          { name: 'bulletin de paie', value: 'bulletin de paie' }
-        ];
+        this.piece.doc1="ccc";
+        this.piece.statut1=false;
+        this.piece.obligatoire1=true;
+
+        this.piece.doc2="ddd";
+        this.piece.statut2=false;
+        this.piece.obligatoire2=true;
         break;
       case 'crédit automobile':
-        this.documentDropdownItems  =[
-          { name: '333', value: 'cin' },
-          { name: 'bulletin de paie', value: 'bulletin de paie' }
-        ];
+        this.piece.doc1="eee";
+        this.piece.statut1=false;
+        this.piece.obligatoire1=true;
+
+        this.piece.doc2="fff";
+        this.piece.statut2=false;
+        this.piece.obligatoire2=true;
         break;
         case 'crédit relais':
-          this.documentDropdownItems  = [
-          { name: '444', value: 'cin' },
-          { name: 'bulletin de paie', value: 'bulletin de paie' }
-        ];
+          this.piece.doc1="iii";
+          this.piece.statut1=false;
+          this.piece.obligatoire1=true;
+          this.piece.doc2="jjj";
+          this.piece.statut2=false;
+          this.piece.obligatoire2=true;
         break;
-      default:
-        this.documentDropdownItems  = [
-          { name: '555', value: 'cin' },
-          { name: 'bulletin de paie', value: 'bulletin de paie' }
-        ];
+      
     }
 
  }
 
-  PiecesJointes = [];
-  GarantiesProposees = [];
+ 
 
 onCinChange(): void {
     //  this.CredForm.get('cin')?.valueChanges.subscribe(cin => {
@@ -226,11 +225,9 @@ onCinChange(): void {
                 dateNaissance: this.datePipe.transform(client.dateNaissance, 'dd/MM/yy'),
                 dateOuverture: this.datePipe.transform(client.dateOuverture, 'dd/MM/yy'),
                 numCompte: client.numCompte,
-                //numCompte: '',
                 devise: client.devise,
                 
               });
-              //this.NumeroDropdownItems = listeNumComptes.map(numCompte => ({ name: `Compte ${numCompte}`, value: numCompte }));
             }
           },
           error => {
@@ -241,7 +238,7 @@ onCinChange(): void {
     // });
   }  
 
-   calculateNbrEcheance(): void {
+calculateNbrEcheance(): void {
     const montant = this.CredForm.get('montant')?.value;
     const unite = this.CredForm.get('unite')?.value;
 
@@ -271,10 +268,7 @@ onCinChange(): void {
     console.log('v', this.visible);
     
   }
-  showDialog2() {
-    this.visible2 = true;
-    this.doc1="AAA";
-  }
+
 
   natureGarantieDropdownItems = [
     { name: 'Garantie de paiement', value: 'Garantie de paiement' },
@@ -305,29 +299,15 @@ onCinChange(): void {
     
   ];
 
-  doc1="sss";
-
-  documentDropdownItems = [
-    { name: this.doc1, value: 'cin' },
-    { name: 'bulletin de paie', value: 'bulletin de paie' }
-  ];
-
-
-  
-
- 
 
 
   close() {
     this.visible = false
     this.GarantieForm.reset();
-    this.visible2 = false
-    this.PieceJointeForm.reset();
+   
 
 
   }
-
-
 
 
   enregistrerGarantie() {
@@ -338,29 +318,14 @@ onCinChange(): void {
 
     if (this.isEditMode && this.editIndex > -1) {
       this.listeGaranties[this.editIndex] = newGarantie;
-      
-      // this.garantieService.modifierGarantie(newGarantie).subscribe(
-      //   (garantieModifiee) => {
-      //     this.listeGaranties[this.editIndex] = garantieModifiee;
-      //   },
-      //   (error) => {
-      //     console.error('Erreur lors de la modification de la garantie', error);
-      //   }
-      // );
+      console.log("modification garantie");
+     
 
     } 
     else {
       this.listeGaranties.push(newGarantie);
-      
-      // this.garantieService.enregistrerGarantie(newGarantie).subscribe(
-      //   (garantieEnregistree) => {
-      //     this.listeGaranties.push(garantieEnregistree);
-      //   },
-
-        // (error) => {
-        //   console.error('Erreur lors de l\'enregistrement de la garantie', error);
-        // }
-      // );
+      console.log("ajout garantie");
+     
       
 
     }
@@ -376,23 +341,10 @@ onCinChange(): void {
   }
 
 
-
   supprimerGarantie(index: number) {
-    //this.listeGaranties.splice(index, 1);
-
-    const garantie = this.listeGaranties[index];
-    if (garantie && garantie.idGarantie) {
-      this.garantieService.supprimerGarantie(index).subscribe(
-        () => {
-          this.listeGaranties.splice(index, 1);
-        },
-        (error) => {
-          console.error('Erreur lors de la suppression de la garantie', error);
-        }
-      );
-    } else {
-      console.error('Garantie ID is not defined, cannot delete.');
-    }
+    this.listeGaranties.splice(index, 1);
+    console.log("suppression garantie");
+    
   }
   
 
@@ -402,46 +354,26 @@ onCinChange(): void {
     this.editIndex = index;
     this.isEditMode = true;
     this.visible = true;
+    
   }
 
-  onFileSelected(event: any) {
+  onFile1Selected(event: any) {
     const file = event.files[0];
     if (file) {
-      this.PieceJointeForm.patchValue({
-        photo: file 
-      });
+      this.piece.statut1=true;
     }
-    console.log("fileOnFileSelected", file);
-
-
+    console.log("fileOnFileSelected doc1", file);
   }
 
-  enregistrerPiece() {
-    const file = this.PieceJointeForm.get('photo')?.value;
-
+  onFile2Selected(event: any) {
+    const file = event.files[0];
     if (file) {
-      const selectedDocument = this.PieceJointeForm.get('document')?.value;
-      if (selectedDocument === 'cin') {
-        this.piece.cin = true;
-        this.piece.cinpath = file.name;
-        this.statutPieces[1]="oui"
-      } else if (selectedDocument === 'bulletin de paie') {
-        this.piece.bulletin = true;
-        this.piece.bulletinpath = file.name;
-        this.statutPieces[0]="oui"
-
-      }
-      console.log("piece", this.piece);
-      console.log("statut", this.statutPieces);
-
-      this.visible2 = false;
-
-
+      this.piece.statut2=true;
     }
-    this.PieceJointeForm.reset();
-
+    console.log("fileOnFileSelected doc2", file);
   }
- 
+
+
   initialiser(){
     this.CredForm.reset();
     console.log("aaaaaaa");
@@ -449,21 +381,11 @@ onCinChange(): void {
   }
  
 
-  formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
-    const hours = ('0' + date.getHours()).slice(-2);
-    const minutes = ('0' + date.getMinutes()).slice(-2);
-    const seconds = ('0' + date.getSeconds()).slice(-2);
-  
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
+ 
 
   getClientInfoByCin(cin: number) {
     this.demandeService.getClientByCin(cin).subscribe(
       (client: Client) => {
-       // ({ client, listeNumComptes }: { client: Client; listeNumComptes: number[] }) => {
 
         this.CredForm.patchValue({
           nom: client.nom,
@@ -483,13 +405,18 @@ onCinChange(): void {
     console.log("enregistrement");
     if (this.CredForm.valid) {
     
-    
+      this.demande.etatDemande="en cours";
+      this.demande.dateCre=new Date;
+
       this.CredForm.patchValue(this.demande)
       console.log("d",this.demande);
       this.demande.type=this.CredForm.controls['type'].value;
       this.demande.unite=this.CredForm.controls['unite'].value;
       this.demande.montant=this.CredForm.controls['montant'].value;
       this.demande.nbrEcheance=this.CredForm.controls['nbrEcheance'].value;
+
+      this.demande.listeGaranties=this.listeGaranties;
+      this.demande.pieceJointe= this.piece;
       this.demande.observations=this.CredForm.controls['observations'].value;
 
 
@@ -514,7 +441,6 @@ onCinChange(): void {
       this.demandeService.saveDemande(this.demande).subscribe(
         (        response: any) => {
           console.log('Demande sauvegardée avec succès', response);
-          // Ajoutez ici la logique supplémentaire après la sauvegarde
           console.log("demande",this.demande);
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Demande enregistrée avec succes' });
           this.CredForm.reset();
@@ -545,6 +471,8 @@ onCinChange(): void {
   FormDisplayBasedOnFlag(flag: string, idDemande: number) {
     this.demandeService.getDemandeById(idDemande).subscribe(demande => {
       if (demande) {
+        console.log("form display method: flag:",flag,"id",idDemande,"demande",demande);
+        
         if (flag === 'edit') {
           this.CredForm.patchValue({
             cin: demande.client.cin,

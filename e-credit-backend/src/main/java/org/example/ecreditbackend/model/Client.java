@@ -14,7 +14,6 @@ import java.util.Date;
 public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_client")
     private Integer idClient;
     private Integer cin;
     @Column(name = "num_compte")

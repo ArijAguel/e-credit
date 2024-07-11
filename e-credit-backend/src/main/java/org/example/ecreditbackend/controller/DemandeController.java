@@ -26,6 +26,11 @@ public class DemandeController {
         return demandeService.getDemandes();
     }
 
+    @GetMapping("/get/listedemandes")
+    public List<Demande> getListeDemandes() {
+        return demandeService.getListeDemandes();
+    }
+
     @GetMapping("/get/demande/{idDemande}")
     public Demande getDemandeById(@PathVariable Integer idDemande) {
         return demandeService.getDemandeById(idDemande);

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class GarantieServiceImpl implements GarantieService{
-    //@Autowired
+    @Autowired
     private final GarantieRepository garantieRepository;
 
 

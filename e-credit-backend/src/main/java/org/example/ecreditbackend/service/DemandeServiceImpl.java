@@ -6,6 +6,7 @@ import org.example.ecreditbackend.model.Client;
 import org.example.ecreditbackend.model.Demande;
 import org.example.ecreditbackend.repository.DemandeRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DemandeServiceImpl implements DemandeService {
 
-    //@Autowired
+    @Autowired
     private final DemandeRepository demandeRepository;
 
     private final ModelMapper modelMapper;
@@ -66,6 +67,12 @@ public class DemandeServiceImpl implements DemandeService {
         return demandeRepository.save(demande);
 
     }
+    @Override
+    public List<Demande> getListeDemandes() {
 
+        return   demandeRepository.findAll();
+
+
+    }
 
 }

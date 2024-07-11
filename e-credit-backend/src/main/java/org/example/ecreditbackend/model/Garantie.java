@@ -18,6 +18,7 @@ public class Garantie {
     private Integer idGarantie;
     @ManyToOne
     private Demande demande;
+
     private String nature;
     private String type;
     private BigDecimal valeur;

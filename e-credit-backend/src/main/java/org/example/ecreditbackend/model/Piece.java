@@ -14,17 +14,16 @@ public class Piece {
     @Column(name = "id_piece")
 
     private Integer idPiece;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_demande", referencedColumnName = "id_demande")
+   @OneToOne(cascade = CascadeType.ALL)
     private Demande demande;
 
-    private Boolean cin;
-    @Column(name = "cin_path")
-    private String cinPath;
+    private String doc1;
+    private Boolean statut1;
+    private Boolean obligatoire1;
 
-    private Boolean bulletin;
-    @Column(name = "bulletin_path")
-    private String bulletinPath;
+    private String doc2;
+    private Boolean statut2;
+    private Boolean obligatoire2;
 
 
 
