@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+
 @Configuration
 public class CrosConfig {
     @Bean
@@ -24,4 +26,6 @@ public class CrosConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
+
 }

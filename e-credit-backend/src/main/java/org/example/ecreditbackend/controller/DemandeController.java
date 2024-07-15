@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.example.ecreditbackend.dto.DemandeDTO;
 import org.example.ecreditbackend.model.Demande;
 import org.example.ecreditbackend.service.DemandeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,9 @@ public class DemandeController {
     private final DemandeService demandeService;
 
     @PostMapping("/save/demande")
-    public Demande saveDemande(@RequestBody Demande demande) {
-        return demandeService.saveDemande(demande);
+    public ResponseEntity<Demande> createDemande(@RequestBody Demande demande) {
+        Demande saveDemande= demandeService.saveDemande(demande);
+        return new ResponseEntity<>(saveDemande, HttpStatus.CREATED);
 
     }
 

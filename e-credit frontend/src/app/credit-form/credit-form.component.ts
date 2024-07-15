@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup,Validators } from '@angular/forms';
+import {  UntypedFormBuilder, UntypedFormGroup,Validators } from '@angular/forms';
 import { Garantie } from '../Models/Garantie';
 import { MessageService } from 'primeng/api';
 import { Piece } from '../Models/Piece';
@@ -8,7 +8,13 @@ import { DemandeService } from '../Service/demande.service';
 import { Client } from '../Models/Client';
 import { DatePipe } from '@angular/common';
 import { GarantieService } from 'src/app/Service/garantie.service';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as dayjs from 'dayjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { FileUploadService } from '../Service/file-upload.service';
+import { catchError, throwError } from 'rxjs';
+
+
 
 
 
@@ -17,6 +23,10 @@ interface UploadEvent {
   originalEvent: Event;
   files: File[];
 }
+interface FileUploadEvent extends Event {
+  files: File[];
+}
+
 
 
 @Component({
@@ -51,6 +61,8 @@ export class CreditFormComponent implements OnInit {
   demande: Demande ={} as Demande;
   flag!:string;
   idDemande!: number ;
+  uploadedFiles: any[] = [];
+
 
 
 
@@ -62,7 +74,9 @@ export class CreditFormComponent implements OnInit {
     private messageService: MessageService,
     private garantieService: GarantieService,
     private router: Router,
-    private route: ActivatedRoute) 
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private fileUploadService: FileUploadService) 
     { 
    
 
@@ -81,7 +95,7 @@ export class CreditFormComponent implements OnInit {
     }
 
     else{
-     this.router.navigate(["../","demande-credit"],{relativeTo:this.route});
+     this.router.navigate(["../","consultation-credit"],{relativeTo:this.route});
      console.log("credit form flag error");
 
     }
@@ -222,8 +236,10 @@ onCinChange(): void {
                 nom: client.nom,
                 prenom: client.prenom,
                 situationFamiliale: client.situationFamiliale,
-                dateNaissance: this.datePipe.transform(client.dateNaissance, 'dd/MM/yy'),
+                dateNaissance: this.datePipe.transform(client.dateNaissance, 'yyyy-mm-dd'),
                 dateOuverture: this.datePipe.transform(client.dateOuverture, 'dd/MM/yy'),
+                // dateNaissance:  dayjs(client.dateNaissance).format('YYYY-MM-DD'),
+                // dateOuverture: dayjs(client.dateOuverture).format('YYYY-MM-DD'),
                 numCompte: client.numCompte,
                 devise: client.devise,
                 
@@ -357,21 +373,44 @@ calculateNbrEcheance(): void {
     
   }
 
-  onFile1Selected(event: any) {
-    const file = event.files[0];
-    if (file) {
-      this.piece.statut1=true;
+
+
+
+
+
+
+ 
+
+  onUpload(event: { files: any;},nb:number) {
+    for (let file of event.files) {
+      this.uploadFile(file,nb);
     }
-    console.log("fileOnFileSelected doc1", file);
   }
 
-  onFile2Selected(event: any) {
-    const file = event.files[0];
-    if (file) {
-      this.piece.statut2=true;
-    }
-    console.log("fileOnFileSelected doc2", file);
-  }
+  uploadFile(file: File,nb: number): void {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.http.post('/api/upload', formData)
+        .pipe(
+            catchError((error: HttpErrorResponse) => {
+                console.error('Error uploading file:', error);
+                return throwError('Error uploading file. Please try again.'); // Handle error message as needed
+            })
+        )
+        .subscribe(response => {
+            console.log('File uploaded successfully:', response);
+            // if(nb==1)
+            // {this.piece.statut1=true;}
+            // else if(nb==2)
+            //   {this.piece.statut2=true;}
+        });
+        if(nb==1)
+          {this.piece.statut1=true;}
+          else if(nb==2)
+            {this.piece.statut2=true;}
+      
+}
 
 
   initialiser(){
@@ -431,13 +470,16 @@ calculateNbrEcheance(): void {
       
        this.demande.client.dateNaissance= this.CredForm.controls['dateOuverture'].value;
        this.demande.client.dateOuverture= this.CredForm.controls['dateNaissance'].value;
+       
 
       this.demande.client.devise=this.CredForm.controls['devise'].value;
       this.demande.client.numCompte=this.CredForm.controls['numCompte'].value;
       this.demande.client.situationFamiliale=this.CredForm.controls['situationFamiliale'].value;
 
-      
-
+      if(this.flag=='edit'){
+        this.demande.idDemande=this.idDemande
+      }
+this.demande.dateCre=this.demande.client.dateNaissance
       this.demandeService.saveDemande(this.demande).subscribe(
         (        response: any) => {
           console.log('Demande sauvegardée avec succès', response);
@@ -473,44 +515,36 @@ calculateNbrEcheance(): void {
       if (demande) {
         console.log("form display method: flag:",flag,"id",idDemande,"demande",demande);
         
-        if (flag === 'edit') {
+        if (flag === 'edit' || flag=='consult') {
           this.CredForm.patchValue({
             cin: demande.client.cin,
             nom: demande.client.nom,
             prenom: demande.client.prenom,
             situationFamiliale: demande.client.situationFamiliale,
-            dateNaissance: this.datePipe.transform(demande.client.dateNaissance, 'dd/MM/yy'),
-            dateOuverture: this.datePipe.transform(demande.client.dateOuverture, 'dd/MM/yy'),
+            
+            // dateNaissance:  dayjs(demande.client.dateNaissance).format('YYYY-MM-DD'),
+            // dateOuverture: dayjs(demande.client.dateOuverture).format('YYYY-MM-DD'),
+            dateNaissance:  new Date(demande.client.dateNaissance),
+            dateOuverture: new Date(demande.client.dateOuverture),
             numCompte: demande.client.numCompte,
             devise: demande.client.devise,
 
             montant: demande.montant ,
             type:demande.type ,
             nbrEcheance:demande.nbrEcheance ,
+            
             unite:demande.unite 
           });
-        } else if (flag === 'consult') {
-          this.CredForm.patchValue({
-            cin: demande.client.cin,
-            nom: demande.client.nom,
-            prenom: demande.client.prenom,
-            situationFamiliale: demande.client.situationFamiliale,
-            dateNaissance: this.datePipe.transform(demande.client.dateNaissance, 'dd/MM/yy'),
-            dateOuverture: this.datePipe.transform(demande.client.dateOuverture, 'dd/MM/yy'),
-            numCompte: demande.client.numCompte,
-            devise: demande.client.devise,
-
-            montant: demande.montant ,
-            type:demande.type ,
-            nbrEcheance:demande.nbrEcheance ,
-            unite:demande.unite 
-          });
-  
+          this.listeGaranties=demande.listeGaranties
+        } 
+         if (flag === 'consult') {
+         
           Object.keys(this.CredForm.controls).forEach(element => {
             this.CredForm.get(element)!.disable();
           });
         }
       } else {
+
         console.log("erreur recuperation demande");
       }
     });

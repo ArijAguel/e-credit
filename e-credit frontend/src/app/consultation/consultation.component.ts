@@ -5,6 +5,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { CreditFormComponent } from '../credit-form/credit-form.component';
 
 
+
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
@@ -81,6 +82,7 @@ rejeter(idDemande:number){
     if (demande) {
       demande.etatDemande="rejetée"
       this.demandeService.saveDemande(demande).subscribe(demandeUpdated => {
+        this.afficherDemandes();
       console.log("demande rejetée",demandeUpdated); })
 
     } 
@@ -98,8 +100,12 @@ valider(idDemande:number){
     if (demande) {
       demande.etatDemande="validée"
       this.demandeService.saveDemande(demande).subscribe(demandeUpdated => {
-        console.log("demande validée",demandeUpdated); })
 
+
+        console.log("demande validée",demandeUpdated);
+        this.afficherDemandes();
+      })
+this.afficherDemandes()
     } 
     else {
       console.log("erreur recuperation demande");

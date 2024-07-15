@@ -20,9 +20,7 @@ export class DemandeService {
     return this.http.get<Client>(`${this.apiUrl}/clients/cin/${cin}`);
   }
 
-  // getClientByCin(cin: number): Observable<{ client: Client; listeNumComptes: number[] }> {
-  //   return this.http.get<{ client: Client; listeNumComptes: number[] }>(`${this.apiUrl}/clients/cin/${cin}`);
-  // }
+ 
 
   getListeDemandes(): Observable<DemandeDTO[]> {
     return this.http.get<DemandeDTO[]>(`${this.apiUrl}/get/demandes`);
@@ -36,6 +34,9 @@ export class DemandeService {
     return this.http.get<Demande>(`${this.apiUrl}/get/demande/${idDemande}`);
   }
 
+  // updateDemande(idDemande: number): Observable<Demande> {
+  //   return this.http.get<Demande>(`${this.apiUrl}/update/demande/${idDemande}`);
+  // }
 
 
 

@@ -8,8 +8,10 @@
 
     <div class="col-12">
         <div class="field col-12 md:col-12" *ngIf="listeDemandes.length > 0; else noDemandes">
-            <button pButton pRipple type="button" icon="pi pi-plus" (click)="navigateToComponent('create',1)"
+           <div><button pButton pRipple type="button" label="Ajouter une demande" (click)="navigateToComponent('create',1)"
 										class="p-button-rounded p-button-success"></button>
+                                        <hr>
+                                    </div> 
 
             <p-table  [value]="listeDemandes" [rowHover]="true" styleClass="p-datatable-gridlines"
                 responsiveLayout="scroll">
@@ -64,12 +66,13 @@
                         <td>{{ demande.nom }}</td>
                         <td>{{ demande.type}}</td>
                         <td>{{demande.etatDemande}}</td>
-                        <td>{{demande.dateCre}}</td>
+                        <td>{{ demande.dateCre | date:'dd-MM-yyyy' }}</td>
+
                         <td>
                             <p-button icon="pi pi-search" [rounded]="true" severity="info"
                             (onClick)="navigateToComponent('consult',demande.idDemande)" /> &nbsp;
                             <p-button icon="pi pi-pencil" [rounded]="true" severity="secondary"
-									(onClick)="navigateToComponent('edit',demande.idDemande)" />
+									(onClick)="navigateToComponent('edit',demande.idDemande)" />&nbsp;
                          <p-button icon=" pi pi-check" [rounded]="true" severity="success"
                                 (onClick)="valider(demande.idDemande)" /> &nbsp;
                             <p-button icon="pi pi-times" [rounded]="true" severity="danger"

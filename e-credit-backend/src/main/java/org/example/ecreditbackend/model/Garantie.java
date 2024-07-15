@@ -1,5 +1,6 @@
 package org.example.ecreditbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -16,6 +17,7 @@ public class Garantie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Integer idGarantie;
+    @JsonIgnore
     @ManyToOne
     private Demande demande;
 

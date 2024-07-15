@@ -23,7 +23,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ConsultationComponent } from './consultation/consultation.component';
 import { HttpClientModule } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -70,7 +70,11 @@ import { MessageService } from 'primeng/api';
     DialogModule,
     FileUploadModule,
     HttpClientModule,
-    ToastModule
+    ToastModule,
+    FileUploadModule, 
+    ToastModule, 
+    CommonModule
+
     
 ,
   ],

@@ -1,6 +1,6 @@
 <form [formGroup]="CredForm" class="grid">
-	<h2>Demande de Crédit</h2>
-
+	<h2>Demande de Crédit</h2> 
+	<p></p>
 	<div *ngIf="flag === 'create'">
 		<p>creation de Credit </p>
 	</div>
@@ -11,12 +11,13 @@
 		<p>modification de Credit </p>
 	</div>
 	
+	
 	<!-- <div *ngIf="!flag">
 		<p>no flag</p>
 	</div> -->
 
-
-	<p-fieldset>
+	<div style="width: 85%; margin: 0 auto;">	
+		<p-fieldset >
 		<ng-template pTemplate="header">
 			<div class="flex align-items-center text-primary">
 				<span class="pi pi-user mr-2"></span>
@@ -24,7 +25,7 @@
 			</div>
 		</ng-template>
 
-		<div class="col-12">
+		<div class="col-12" >
 
 			<div class="p-fluid p-formgrid grid">
 				<div class="field col-12 md:col-4">
@@ -120,8 +121,6 @@
 
 		</div>
 	</p-fieldset>
-
-
 
 	<p-fieldset>
 		<ng-template pTemplate="header">
@@ -242,18 +241,20 @@
 							<th>{{piece.doc1}}</th>
 							<th>{{ piece.obligatoire1 }}</th>
 							<th>{{ piece.statut1 }}</th>
-							<th><p-fileUpload class=" mb-10 col-12 md:col-4" mode="basic" accept="image/*" [maxFileSize]="9999999"
-								label="importer" chooseLabel="importer" class="mr-2 inline-block" 
-								(onSelect)="onFile1Selected($event)"></p-fileUpload></th>
+							<th>
+								<p-fileUpload name="file" customUpload="true" (uploadHandler)="onUpload($event,1)"></p-fileUpload>
+
+							</th>
 
 						</tr>
 						<tr>
 							<th>{{piece.doc2}}</th>
 							<th>{{ piece.obligatoire2}}</th>
 							<th>{{ piece.statut2 }}</th>
-							<th><p-fileUpload class=" mb-10 col-12 md:col-4" mode="basic" accept="image/*" [maxFileSize]="9999999"
-								label="importer" chooseLabel="importer" class="mr-2 inline-block" 
-								(onSelect)="onFile2Selected($event)"></p-fileUpload></th>
+							<th>
+								<p-fileUpload name="file" customUpload="true" (uploadHandler)="onUpload($event,2)"></p-fileUpload>
+
+							</th>
 
 						</tr>
 
@@ -311,6 +312,7 @@
 
 		</div>
 	</div>
+</div>
 
 
 

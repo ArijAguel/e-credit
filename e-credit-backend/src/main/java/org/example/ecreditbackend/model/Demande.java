@@ -28,9 +28,9 @@ public class Demande {
     private String observations;
     private String etatDemande ;
     private Date dateCre=new Date();
-    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "demande")
+    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "demande",orphanRemoval = true)
 
-    private List<Garantie> listeGaranties;
+    private List<Garantie> listeGaranties=new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
     private Client client;
     @OneToOne(cascade = CascadeType.ALL)
